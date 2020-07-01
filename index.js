@@ -16,10 +16,26 @@ connect.then((db) => {
     .then((dish) => {
         console.log(dish);
 
-        return Dishes.find({});      
+        return Dishes.findByIdAndUpdate(dish._id, {
+            $set: {description: "Updated Big"} 
+        },
+        {
+            new: true
+        })
+        .exec();      
     })
-    .then((dishes) => {
-        console.log(dishes);
+    .then((dish) => {
+        console.log(dish);
+        
+        dish.comments.push({
+            rating: 5,
+            comment: "Nice dish",
+            author: "Tcs"
+        })
+        return dish.save();
+    })
+    .then((dish) =>{
+        console.log(dish);
 
         return Dishes.remove({});
     })
